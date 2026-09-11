@@ -23,7 +23,16 @@ class BreadthFirstSearch:
         reached[root.state] = True
 
         # Initialize frontier with the root node
-        # TODO Complete the rest!!
-        # ...
+        frontier = QueueFrontier()
+        frontier.add(root)
+        while not frontier.is_empty():
+            node = frontier.remove()
+            if node.state == grid.goal:
+                return Solution(reached, node)
+
+            for action, state in grid.neighbors(node.state):
+                if state not in reached:
+                    reached[state] = True
+                    frontier.add(Node(action, state=state, cost=node.cost + 1, parent=node, action=action))
 
         return NoSolution(reached)
