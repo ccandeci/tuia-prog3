@@ -27,12 +27,24 @@ class BreadthFirstSearch:
         frontier.add(root)
         while not frontier.is_empty():
             node = frontier.remove()
-            if node.state == grid.goal:
-                return Solution(reached, node)
 
-            for action, state in grid.neighbors(node.state):
+            if grid.objective_test(node.state):
+                return Solution(node, reached)
+
+            for action in grid.actions(node.state):
+                state = grid.result(node.state, action)
+
                 if state not in reached:
                     reached[state] = True
-                    frontier.add(Node(action, state=state, cost=node.cost + 1, parent=node, action=action))
+
+                    child = Node(
+                        action,
+                        state=state,
+                        cost=node.cost + 1,
+                        parent=node,
+                        action=action
+                    )
+
+                    frontier.add(child)
 
         return NoSolution(reached)
