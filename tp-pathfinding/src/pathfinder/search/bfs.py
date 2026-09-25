@@ -18,33 +18,29 @@ class BreadthFirstSearch:
         # Initialize root node
         root = Node("", state=grid.initial, cost=0, parent=None, action=None)
 
-        # Initialize reached with the initial state
+        # Apply objective test
+        
+        if grid.objective_test(root.state):
+            return Solution(root, reached)
+        # inicializo la frontera y agrego a la frontera la raiz
+        frontier=QueueFrontier()
+        frontier.add(root)
+        # Initialize alcanzados con el estado original
         reached = {}
         reached[root.state] = True
+              
 
-        # Initialize frontier with the root node
-        frontier = QueueFrontier()
-        frontier.add(root)
-        while not frontier.is_empty():
-            node = frontier.remove()
+        while True:
+            if frontier.is_empty():
+                return NoSolution(reached)
+            nodo=frontier.remove()
 
-            if grid.objective_test(node.state):
-                return Solution(node, reached)
-
-            for action in grid.actions(node.state):
-                state = grid.result(node.state, action)
-
-                if state not in reached:
-                    reached[state] = True
-
-                    child = Node(
-                        action,
-                        state=state,
-                        cost=node.cost + 1,
-                        parent=node,
-                        action=action
-                    )
-
-                    frontier.add(child)
-
-        return NoSolution(reached)
+            for action in grid.actions(nodo.state):
+                succesor=grid.result(nodo.state,action)
+                if succesor not in reached:
+                    son = Node( "",state=succesor, cost=nodo.cost + grid.individual_cost(nodo.state, action),parent=nodo, action=action)                                       
+                                        
+                    if grid.objective_test(succesor):
+                        return Solution(son, reached)
+                    reached[succesor]=True
+                    frontier.add(son)
