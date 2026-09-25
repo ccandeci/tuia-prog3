@@ -29,7 +29,6 @@ class BreadthFirstSearch:
         reached = {}
         reached[root.state] = True
               
-
         while True:
             if frontier.is_empty():
                 return NoSolution(reached)
