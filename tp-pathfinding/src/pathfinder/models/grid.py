@@ -1,3 +1,5 @@
+from platform import node
+
 from src.pathfinder.models.node import Node
 
 
@@ -111,3 +113,11 @@ class Grid:
 
     def __repr__(self) -> str:
         return f"Grid([[...], ...], {self.initial}, {self.end})"
+    
+#================= Agregamos Heusristica ==========================
+
+    def heuristic(self, node: Node) -> int:
+        row, col = node.state          # saco la fila y columna donde estoy parado
+        end_row, end_col = self.end    # saco la fila y columna de la meta
+
+        return abs(row - end_row) + abs(col - end_col)
