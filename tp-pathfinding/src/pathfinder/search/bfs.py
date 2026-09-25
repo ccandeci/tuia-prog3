@@ -22,24 +22,25 @@ class BreadthFirstSearch:
         
         if grid.objective_test(root.state):
             return Solution(root, reached)
-        # inicializo la frontera y agrego a la frontera la raiz
+        # inicializo frontera y agrego a frontera la raiz
         frontier=QueueFrontier()
         frontier.add(root)
-        # Initialize alcanzados con el estado original
+        # Initializo alcanzados al estado original
         reached = {}
         reached[root.state] = True
-              
-        while True:
-            if frontier.is_empty():
-                return NoSolution(reached)
-            nodo=frontier.remove()
 
-            for action in grid.actions(nodo.state):
-                succesor=grid.result(nodo.state,action)
-                if succesor not in reached:
+        # Mientras que la frontera no este vacia
+        while True:
+            if frontier.is_empty(): 
+                return NoSolution(reached) # Devuelvo NoSolution
+            nodo=frontier.remove() # Borro el nodo de la frontera
+
+            for action in grid.actions(nodo.state): # Recorre las acciones posibles del nodo.
+                succesor=grid.result(nodo.state,action) # 
+                if succesor not in reached: # Si sucesor no lo tengo en alconzados, lo agrego a la frontera y a alcanzados
                     son = Node( "",state=succesor, cost=nodo.cost + grid.individual_cost(nodo.state, action),parent=nodo, action=action)                                       
                                         
-                    if grid.objective_test(succesor):
+                    if grid.objective_test(succesor): # Si el sucesor que acabamos de generar es el objetivo, devolvemos la solucion
                         return Solution(son, reached)
-                    reached[succesor]=True
-                    frontier.add(son)
+                    reached[succesor]=True # Si no es el objetivo, lo agrego a alcanzados
+                    frontier.add(son) # También lo agrego en la frontera para seguir expandiendo
