@@ -23,24 +23,31 @@ class UniformCostSearch:
         root = Node("", state=grid.initial, cost=0, parent=None, action=None)
 
         # Initialize reached with the initial state
-        reached = {}
+        reached = {} #Guarda el mejor costo conocido para llegar a cada estado
         reached[root.state] = root.cost
 
         # Initialize frontier with the root node
+        # La frontera contiene los nodos que todavía tenemos que explorar.
+        # La cola de prioridad hace que salga primero el nodo con menor costo.
         frontier = PriorityQueueFrontier()
-        frontier.add(root, priority=root.cost) #Guarda el mejor costo conocido para llegar a cada estado
+        frontier.add(root, priority=root.cost) 
 
         while not frontier.is_empty():
+            # Sacamos el nodo de menor costo de toda la frontera.
             node = frontier.pop()
             #el test de objetivo se hace apenas lo sacamos, no antes
             if grid.objective_test(node.state):
                 return Solution(node, reached)
             
             for action in grid.actions(node.state):
+            # Generamos todos los estados vecinos alcanzables desde el estado actual.
                 new_state = grid.result(node.state, action)
+            # Calculamos el costo acumulado del nuevo camino: costo hasta el nodo 
+            # actual + costo de realizar la acción.
                 new_cost = node.cost + grid.individual_cost(node.state, action)
         
-            #Recorro los vecinos, con esta condición: nunca lo vi, o lo vi pero por un camino más caro que este?
+            #Recorro los vecinos, con esta condición: nunca lo vi, o lo vi pero por un 
+            #camino más caro que este?
                 if new_state not in reached or new_cost < reached[new_state]:
                     reached[new_state] = new_cost
                     child = Node(action, state=new_state, cost=new_cost, parent=node, action=action)
