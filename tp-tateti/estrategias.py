@@ -38,14 +38,11 @@ def estrategia_minimax(tateti: Tateti, estado: List[List[str]]) -> Tuple[int, in
     La utilidad siempre se mide desde la perspectiva de JUGADOR_MAX
     (1.0 si gana MAX, 0.0 si gana MIN, 0.5 si hay empate). Si le toca mover
     a MAX se elige la acción de mayor valor; si le toca a MIN, la de menor valor.
-
     Args:
         tateti: Instancia de la clase Tateti
         estado: Estado actual del tablero
-
     Returns:
         Tuple[int, int]: Acción elegida (fila, columna)
-
     Raises:
         ValueError: Si no hay acciones disponibles
     """
