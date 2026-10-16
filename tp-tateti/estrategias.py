@@ -89,10 +89,10 @@ def estrategia_minimax(tateti: Tateti, estado: List[List[str]]) -> Tuple[int, in
         return v
 
     # el que mueve ahora determina si se maximiza o se minimiza
-    # contamos fichas con tateti.jugador y veo si le toca a MAX
+    # contamos fichas con tateti.jugador y vemos si le toca a MAX
     es_turno_max = tateti.jugador(estado) == JUGADOR_MAX
 
-    # guardamos  la mejor jugada que encuentro
+    # guardamos  la mejor jugada que encuentramos
     mejor_accion = None
     # el valor inicial depende de quién juega: si es MAX arranco en -inf
     # y si es MIN arranco en +inf, así la primera jugada ya lo mejora
@@ -116,5 +116,5 @@ def estrategia_minimax(tateti: Tateti, estado: List[List[str]]) -> Tuple[int, in
             if valor < mejor_valor:
                 mejor_valor, mejor_accion = valor, accion
 
-    # devuelvemos la mejor jugada que encontré (fila, columna)
+    # devolvemos la mejor jugada que encontramos (fila, columna)
     return mejor_accion
